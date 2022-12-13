@@ -1,5 +1,10 @@
 package com.gabrielfigueiredo.cms.controller;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,19 +32,24 @@ public class EventController {
 
 	@ApiOperation("Creates a new event")
 	@PostMapping()
-	public EventDTO createEvent(@RequestBody EventInputDTO event) {
+	public EventDTO createEvent(@Valid @RequestBody EventInputDTO event) {
 		EventDTO result = eventService.create(event);
+		return result;
+	}
 
+	@ApiOperation("List all events")
+	@GetMapping
+	public List<EventDTO> list() {
+		List<EventDTO> result = eventService.list();
 		return result;
 	}
 
 	@ApiOperation("Creates a new edition of the given event")
 	@PostMapping("/{eventPath}/edition")
-	public EditionDTO createEdition(@ApiParam(value = EVENT_PATH,  example = "sbgconference") @PathVariable String eventPath,
-								  @RequestBody EditionInputDTO edition) {
+	public EditionDTO createEdition(@ApiParam(value = EVENT_PATH,  example = "sbcconference") @PathVariable String eventPath,
+									@Valid @RequestBody EditionInputDTO edition) {
 
 		EditionDTO result = eventService.createEdition(eventPath, edition);
-
 		return result;
 	}
 }

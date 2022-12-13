@@ -3,18 +3,15 @@ package com.gabrielfigueiredo.cms.model;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
 import com.gabrielfigueiredo.cms.dto.EditionInputDTO;
@@ -31,20 +28,26 @@ public class Edition {
 	@GeneratedValue
 	private Long id;
 
+	@NonNull
 	private Integer numero;
 
+	@NonNull
 	private Integer ano;
 
+	@NonNull
 	private String cidade;
 
+	@NonNull
 	private Date dataInicial;
 
+	@NonNull
 	private Date dataFinal;
 
 	@OneToOne
 	@JoinColumn(name = "fk_organizador")
 	private User organizador;
 
+	@NonNull
 	@ManyToOne
 	@JoinColumn(name = "fk_evento")
 	private Event evento;
