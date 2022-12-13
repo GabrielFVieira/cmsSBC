@@ -31,6 +31,12 @@ public class CustomExceptionHandler {
 		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
+	@ExceptionHandler(DomainException.class)
+	public ResponseEntity<JsonResponse> handleDomainException(DomainException exception) {
+		JsonResponse error = new JsonResponse(exception.getMessage());
+		return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+	}
+
 	@ExceptionHandler(InvalidParamException.class)
 	public ResponseEntity<JsonResponse> handleInvalidParamException(InvalidParamException exception) {
 		JsonResponse error = new JsonResponse(exception.getMessage(), exception.getInvalidFields());

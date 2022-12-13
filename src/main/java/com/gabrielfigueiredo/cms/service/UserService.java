@@ -8,5 +8,11 @@ import com.gabrielfigueiredo.cms.dto.UserInputDTO;
 public interface UserService {
 	public UserDTO create(UserInputDTO input);
 
+	public UserDTO find(Integer id);
+
 	public List<UserDTO> list();
+
+	public UserDTO update(Integer id, UserInputDTO input);
+
+	public void remove(Integer id);
 }

@@ -10,20 +10,23 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.lang.NonNull;
+
+import com.gabrielfigueiredo.cms.dto.UserInputDTO;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name="usuario")
+@Table(name="usuario", uniqueConstraints = @UniqueConstraint(columnNames = {"login"}))
 @NoArgsConstructor
 public class User {
 	@Id
 	@GeneratedValue
-	private Long id;
+	private Integer id;
 
 	@NonNull
 	private String login;
@@ -47,4 +50,24 @@ public class User {
 		inverseJoinColumns = @JoinColumn(name="fk_atividade")
 	)
 	private List<Activity> atividadesFavoritas;
+
+	public User(UserInputDTO input) {
+		this.nome = input.getNome();
+		this.login = input.getLogin();
+		this.email = input.getEmail();
+		this.afiliacao = input.getAfiliacao();
+	}
+
+	public void Merge(UserInputDTO input) {
+		this.nome = input.getNome();
+		this.login = input.getLogin();
+		this.email = input.getEmail();
+		this.afiliacao = input.getAfiliacao();
+	}
+
+	public void Validate() {
+		return;
+	}
+
+
 }
