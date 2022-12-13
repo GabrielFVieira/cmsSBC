@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  mysqldb:
+    image: mysql:5.7
+    environment:
+      MYSQL_USER: csm
+      MYSQL_PASSWORD: csm
+      MYSQL_USER_HOST: '%'
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: csmsbc
+    restart: always
+    ports:
+      - '3306:3306'
+  csm:
+    depends_on:
+      - mysqldb
+    build: .
+    environment:
+      MYSQL_HOST: 'mysqldb'
+    restart: on-failure
+    ports:
+      - '8088:8085'
