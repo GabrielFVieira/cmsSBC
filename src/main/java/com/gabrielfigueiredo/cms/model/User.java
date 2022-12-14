@@ -60,11 +60,19 @@ public class User {
 		this.login = input.getLogin();
 		this.email = input.getEmail();
 		this.afiliacao = input.getAfiliacao();
+		this.afiliacao = input.getAfiliacao();
+		this.atividadesFavoritas = input.getAtividadesFavoritas();
 	}
 
 	public void Validate() {
 		return;
 	}
 
+	public List<Activity> getAtividadesFavoritas() {
+		return this.atividadesFavoritas;
+	}
 
+	public void setAtividadesFavoritas(List<Activity> activities) {
+		this.atividadesFavoritas = activities;
+	}
 }

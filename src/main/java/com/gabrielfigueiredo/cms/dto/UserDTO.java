@@ -1,7 +1,10 @@
 package com.gabrielfigueiredo.cms.dto;
 
 import com.gabrielfigueiredo.cms.model.User;
+import com.gabrielfigueiredo.cms.model.Activity;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import io.swagger.annotations.ApiModel;
@@ -18,6 +21,7 @@ public class UserDTO {
 	private String email;
 	private String nome;
 	private String afiliacao;
+	private List<ActivityDTO> atividadesFavoritas;
 
 	public UserDTO(User user) {
 		this.id = user.getId();
@@ -25,5 +29,12 @@ public class UserDTO {
 		this.email = user.getEmail();
 		this.nome = user.getNome();
 		this.afiliacao = user.getAfiliacao();
+
+		if (user.getAtividadesFavoritas() != null) {
+			this.atividadesFavoritas = new ArrayList<>();
+			for (Activity atv : user.getAtividadesFavoritas()) {
+				this.atividadesFavoritas.add(new ActivityDTO(atv));
+			}
+		}
 	}
 }
