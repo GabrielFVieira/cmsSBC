@@ -1,6 +1,6 @@
 package com.gabrielfigueiredo.cms.model;
 
-import java.sql.Time;
+import java.time.LocalTime;
 import java.sql.Date;
 import java.util.List;
 
@@ -35,9 +35,9 @@ public class Activity {
 
 	private Date data;
 
-	private Time horarioInicial;
+	private LocalTime horarioInicial;
 
-	private Time horarioFinal;
+	private LocalTime horarioFinal;
 
 	public Activity(ActivityInputDTO input) {
 		this.nome = input.getNome();

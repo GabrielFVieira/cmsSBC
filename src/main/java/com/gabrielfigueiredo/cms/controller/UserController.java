@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gabrielfigueiredo.cms.dto.ActivityInputDTO;
+import com.gabrielfigueiredo.cms.dto.FavoriteActivityInputDTO;
 import com.gabrielfigueiredo.cms.dto.UserDTO;
 import com.gabrielfigueiredo.cms.dto.UserInputDTO;
 import com.gabrielfigueiredo.cms.service.UserService;
@@ -68,16 +69,16 @@ public class UserController {
 	}
 
 	@ApiOperation("Adds an activity to an user's favorites")
-	@PutMapping("/{id}")
-	public UserDTO addActivityToFavorites(@PathVariable("id") Integer id, @Valid @RequestBody UserInputDTO userDTO, @Valid @RequestBody ActivityInputDTO activityDTO) {
-		UserDTO result = userService.addActivityToFavorites(id, userDTO, activityDTO);
+	@PutMapping("/{id}/addFavorite")
+	public UserDTO addActivityToFavorites(@PathVariable("id") Integer id, @Valid @RequestBody FavoriteActivityInputDTO activity) {
+		UserDTO result = userService.addActivityToFavorites(id, activity);
 		return result;
 	}
 
 	@ApiOperation("Removess an activity from an user's favorites")
-	@PutMapping("/{id}")
-	public UserDTO removeActivityFromFavorites(@PathVariable("id") Integer id, @Valid @RequestBody UserInputDTO userDTO, @Valid @RequestBody ActivityInputDTO activityDTO) {
-		UserDTO result = userService.removeActivityFromFavorites(id, userDTO, activityDTO);
+	@PutMapping("/{id}/removeFavorite")
+	public UserDTO removeActivityFromFavorites(@PathVariable("id") Integer id,  @Valid @RequestBody FavoriteActivityInputDTO activity) {
+		UserDTO result = userService.removeActivityFromFavorites(id, activity);
 		return result;
 	}
 }

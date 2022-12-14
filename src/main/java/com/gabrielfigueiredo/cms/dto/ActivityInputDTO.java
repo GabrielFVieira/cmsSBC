@@ -1,9 +1,10 @@
 package com.gabrielfigueiredo.cms.dto;
 
-import java.sql.Time;
+import java.time.LocalTime;
 import java.sql.Date;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.gabrielfigueiredo.cms.model.ActivityType;
 
@@ -17,18 +18,24 @@ public class ActivityInputDTO {
     @NotBlank
     private String nome;
 
-    @NotBlank
+    @NotNull
     private ActivityType tipo;
 
     @NotBlank
     private String descricao;
 
-    @NotBlank
+    @NotNull
     private Date data;
 
-    @NotBlank
-	private Time horarioInicial;
-	
-    @NotBlank
-	private Time horarioFinal;
+    @NotNull
+	private LocalTime horarioInicial;
+
+    @NotNull
+	private LocalTime horarioFinal;
+
+    @NotNull
+    private Integer idLocal;
+
+    @NotNull
+    private Integer idEdicao;
 }

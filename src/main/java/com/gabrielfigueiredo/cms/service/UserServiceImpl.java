@@ -3,11 +3,12 @@ package com.gabrielfigueiredo.cms.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
-import com.gabrielfigueiredo.cms.dto.ActivityInputDTO;
+import com.gabrielfigueiredo.cms.dto.FavoriteActivityInputDTO;
 import com.gabrielfigueiredo.cms.dto.UserDTO;
 import com.gabrielfigueiredo.cms.dto.UserInputDTO;
 import com.gabrielfigueiredo.cms.exception.DomainException;
@@ -24,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 	private final UserRepository repository;
+	private final ActivityService activityService;
 
 	@Override
 	public UserDTO create(UserInputDTO input) {
@@ -149,62 +151,55 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDTO addActivityToFavorites(Integer id, UserInputDTO userDTO, ActivityInputDTO activityDTO) {
+	public UserDTO addActivityToFavorites(Integer id, FavoriteActivityInputDTO favorite) {
 		try {
-			User usrEntity = findById(id);
-			usrEntity.Merge(userDTO);
-			Activity actEntity = new Activity(activityDTO);
-			List<Activity> favoriteActivities = usrEntity.getAtividadesFavoritas();
-			
-			Long matchesCount = favoriteActivities.stream().filter(act -> act.equals(actEntity)).count();
-			 
-			if (!favoriteActivities.contains(actEntity) || matchesCount == 0L) {
-				favoriteActivities.add(actEntity);
+			User userEntity = findById(id);
+			Activity activity = activityService.findEntity(favorite.getIdAtividade());
+
+			List<Activity> favoriteActivities = userEntity.getAtividadesFavoritas();
+
+			Optional<Activity> exists = favoriteActivities
+											.stream()
+											.filter(a -> a.getId().equals(activity.getId()))
+											.findFirst();
+
+			if (exists.isPresent()) {
+				return new UserDTO(userEntity);
 			}
 
-			usrEntity.setAtividadesFavoritas(favoriteActivities);
-			
-			usrEntity.Validate();
-			validateUserLogin(usrEntity);
+			favoriteActivities.add(activity);
+			userEntity.setAtividadesFavoritas(favoriteActivities);
 
-			User user = repository.save(usrEntity);
-			return new UserDTO(user);
-			
+			User savedEntity = repository.save(userEntity);
+
+			return new UserDTO(savedEntity);
 		}  catch (NotFoundException e) {
 			throw e;
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new ServerException("Error while adding favorite activities to user");
+			throw new ServerException("Error while adding favorite activity to user");
 		}
 	}
 
 	@Override
-	public UserDTO removeActivityFromFavorites(Integer id, UserInputDTO userDTO, ActivityInputDTO activityDTO) {
+	public UserDTO removeActivityFromFavorites(Integer id, FavoriteActivityInputDTO favorite) {
 		try {
-			User usrEntity = findById(id);
-			usrEntity.Merge(userDTO);
-			Activity actEntity = new Activity(activityDTO);
-			List<Activity> favoriteActivities = usrEntity.getAtividadesFavoritas();
-			
-			Long matchesCount = favoriteActivities.stream().filter(act -> act.equals(actEntity)).count();
-			 
-			if (favoriteActivities.contains(actEntity) || matchesCount > 0L) {
-				favoriteActivities.remove(actEntity);
-			}
+			User userEntity = findById(id);
 
-			usrEntity.setAtividadesFavoritas(favoriteActivities);
-			
-			usrEntity.Validate();
-			validateUserLogin(usrEntity);
+			List<Activity> activities = userEntity.getAtividadesFavoritas()
+											.stream()
+											.filter(a -> a.getId() != favorite.getIdAtividade())
+											.collect(Collectors.toList());
 
-			User user = repository.save(usrEntity);
-			return new UserDTO(user);
-			
+			userEntity.setAtividadesFavoritas(activities);
+
+			User savedUser = repository.save(userEntity);
+			return new UserDTO(savedUser);
 		}  catch (NotFoundException e) {
 			throw e;
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new ServerException("Error while adding favorite activities to user");
+			throw new ServerException("Error while removing favorite activity from user");
 		}
 	}
 }

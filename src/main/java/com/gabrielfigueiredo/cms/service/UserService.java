@@ -6,6 +6,7 @@ import com.gabrielfigueiredo.cms.dto.UserDTO;
 import com.gabrielfigueiredo.cms.dto.UserInputDTO;
 import com.gabrielfigueiredo.cms.model.User;
 import com.gabrielfigueiredo.cms.dto.ActivityInputDTO;
+import com.gabrielfigueiredo.cms.dto.FavoriteActivityInputDTO;
 
 public interface UserService {
 	public UserDTO create(UserInputDTO input);
@@ -20,8 +21,8 @@ public interface UserService {
 
 	public void remove(Integer id);
 
-	public UserDTO addActivityToFavorites(Integer id, UserInputDTO userDTO, ActivityInputDTO activityDTO);
+	public UserDTO addActivityToFavorites(Integer id, FavoriteActivityInputDTO favorite);
 
-	public UserDTO removeActivityFromFavorites(Integer id, UserInputDTO userDTO, ActivityInputDTO activityDTO);
+	public UserDTO removeActivityFromFavorites(Integer id, FavoriteActivityInputDTO favorite);
 
 }

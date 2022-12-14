@@ -25,4 +25,6 @@ public interface EventService {
 	public void addOrganizer(Integer eventId, Integer editionId, EditionOrganizerInputDTO input);
 
 	public List<EventDTO> list();
+
+
 }

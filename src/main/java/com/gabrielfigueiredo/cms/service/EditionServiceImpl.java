@@ -27,6 +27,24 @@ public class EditionServiceImpl implements EditionService {
 	private final UserService userService;
 
 	@Override
+	public Edition findEntity(Integer id) {
+		try {
+			Optional<Edition> exists = repository.findById(id);
+
+			if (!exists.isPresent()) {
+				throw new NotFoundException("Edition '"+id+"' not found");
+			}
+
+			return exists.get();
+		}  catch (InvalidParamException | NotFoundException | DomainException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServerException("Error while fetching edition");
+		}
+	}
+
+	@Override
 	public EditionDTO create(Event event, EditionInputDTO input) {
 		try {
 			Optional<Edition> found = event.getEdicoes()
@@ -70,7 +88,7 @@ public class EditionServiceImpl implements EditionService {
 			throw new ServerException("Error while listing editions");
 		}
 	}
-		
+
 	@Override
 	public EditionDTO update(Event event, Integer id, EditionInputDTO input) {
 		try {

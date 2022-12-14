@@ -32,7 +32,7 @@ import lombok.RequiredArgsConstructor;
 public class ActivityController {
 	private final ActivityService activityService;
 
-	@ApiOperation("List all activitys")
+	@ApiOperation("List all activities")
 	@GetMapping
 	public List<ActivityDTO> list() {
 		List<ActivityDTO> result = activityService.list();
