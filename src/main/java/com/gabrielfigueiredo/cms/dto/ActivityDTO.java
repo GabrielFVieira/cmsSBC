@@ -2,11 +2,9 @@ package com.gabrielfigueiredo.cms.dto;
 
 import java.sql.Time;
 import java.sql.Date;
-import java.util.List;
 
 import com.gabrielfigueiredo.cms.model.Activity;
 import com.gabrielfigueiredo.cms.model.ActivityType;
-import com.gabrielfigueiredo.cms.model.User;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;

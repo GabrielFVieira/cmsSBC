@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
-import com.gabrielfigueiredo.cms.dto.ActivityInputDTO;
 import com.gabrielfigueiredo.cms.dto.UserDTO;
 import com.gabrielfigueiredo.cms.dto.UserInputDTO;
 import com.gabrielfigueiredo.cms.exception.DomainException;
@@ -24,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 	private final UserRepository repository;
+	private final ActivityService activityService;
 
 	@Override
 	public UserDTO create(UserInputDTO input) {
@@ -149,11 +149,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDTO addActivityToFavorites(Integer id, UserInputDTO userDTO, ActivityInputDTO activityDTO) {
+	public UserDTO addActivityToFavorites(Integer id, UserInputDTO userDTO, Integer activityId) {
 		try {
 			User usrEntity = findById(id);
 			usrEntity.Merge(userDTO);
-			Activity actEntity = new Activity(activityDTO);
+			Activity actEntity = activityService.findEntity(activityId);
 			List<Activity> favoriteActivities = usrEntity.getAtividadesFavoritas();
 			
 			Long matchesCount = favoriteActivities.stream().filter(act -> act.equals(actEntity)).count();
@@ -179,11 +179,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDTO removeActivityFromFavorites(Integer id, UserInputDTO userDTO, ActivityInputDTO activityDTO) {
+	public UserDTO removeActivityFromFavorites(Integer id, UserInputDTO userDTO, Integer activityId) {
 		try {
 			User usrEntity = findById(id);
 			usrEntity.Merge(userDTO);
-			Activity actEntity = new Activity(activityDTO);
+			Activity actEntity = activityService.findEntity(activityId);
 			List<Activity> favoriteActivities = usrEntity.getAtividadesFavoritas();
 			
 			Long matchesCount = favoriteActivities.stream().filter(act -> act.equals(actEntity)).count();

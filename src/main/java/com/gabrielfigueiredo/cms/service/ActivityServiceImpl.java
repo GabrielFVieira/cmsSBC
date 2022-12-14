@@ -13,11 +13,7 @@ import com.gabrielfigueiredo.cms.exception.InvalidParamException;
 import com.gabrielfigueiredo.cms.exception.NotFoundException;
 import com.gabrielfigueiredo.cms.exception.ServerException;
 import com.gabrielfigueiredo.cms.model.Activity;
-import com.gabrielfigueiredo.cms.model.Event;
-import com.gabrielfigueiredo.cms.model.Activity;
 import com.gabrielfigueiredo.cms.repository.ActivityRepository;
-import com.gabrielfigueiredo.cms.repository.EventRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @Service

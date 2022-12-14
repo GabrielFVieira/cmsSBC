@@ -3,7 +3,6 @@ package com.gabrielfigueiredo.cms.controller;
 import java.util.List;
 
 import javax.validation.Valid;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gabrielfigueiredo.cms.dto.ActivityInputDTO;
 import com.gabrielfigueiredo.cms.dto.UserDTO;
 import com.gabrielfigueiredo.cms.dto.UserInputDTO;
 import com.gabrielfigueiredo.cms.service.UserService;
@@ -68,16 +66,16 @@ public class UserController {
 	}
 
 	@ApiOperation("Adds an activity to an user's favorites")
-	@PutMapping("/{id}")
-	public UserDTO addActivityToFavorites(@PathVariable("id") Integer id, @Valid @RequestBody UserInputDTO userDTO, @Valid @RequestBody ActivityInputDTO activityDTO) {
-		UserDTO result = userService.addActivityToFavorites(id, userDTO, activityDTO);
+	@PutMapping("/{id}/add-to-favorites")
+	public UserDTO addActivityToFavorites(@PathVariable("id") Integer id, @Valid @RequestBody UserInputDTO userDTO, @Valid @RequestBody Integer activityId) {
+		UserDTO result = userService.addActivityToFavorites(id, userDTO, activityId);
 		return result;
 	}
 
 	@ApiOperation("Removess an activity from an user's favorites")
-	@PutMapping("/{id}")
-	public UserDTO removeActivityFromFavorites(@PathVariable("id") Integer id, @Valid @RequestBody UserInputDTO userDTO, @Valid @RequestBody ActivityInputDTO activityDTO) {
-		UserDTO result = userService.removeActivityFromFavorites(id, userDTO, activityDTO);
+	@PutMapping("/{id}/remove-from-favorites")
+	public UserDTO removeActivityFromFavorites(@PathVariable("id") Integer id, @Valid @RequestBody UserInputDTO userDTO, @Valid @RequestBody Integer activityId) {
+		UserDTO result = userService.removeActivityFromFavorites(id, userDTO, activityId);
 		return result;
 	}
 }
