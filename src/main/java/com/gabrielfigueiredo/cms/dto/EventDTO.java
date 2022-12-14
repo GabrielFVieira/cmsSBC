@@ -2,6 +2,8 @@ package com.gabrielfigueiredo.cms.dto;
 
 import com.gabrielfigueiredo.cms.model.Event;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @ApiModel(value = "Event")
+@JsonInclude(Include.NON_EMPTY)
 public class EventDTO {
     private Integer id;
     private String nome;

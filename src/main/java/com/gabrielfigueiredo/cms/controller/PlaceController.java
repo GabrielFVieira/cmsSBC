@@ -3,9 +3,6 @@ package com.gabrielfigueiredo.cms.controller;
 import java.util.List;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
-
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gabrielfigueiredo.cms.dto.UserDTO;
-import com.gabrielfigueiredo.cms.dto.UserInputDTO;
-import com.gabrielfigueiredo.cms.service.UserService;
-
+import com.gabrielfigueiredo.cms.dto.PlaceDTO;
+import com.gabrielfigueiredo.cms.dto.PlaceInputDTO;
+import com.gabrielfigueiredo.cms.service.PlaceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -30,34 +26,41 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Api(tags = {"Place"})
 public class PlaceController {
-	private final UserService userService;
+	private final PlaceService placeService;
 
 	@ApiOperation("List all places")
 	@GetMapping
-	public List<UserDTO> list() {
-		List<UserDTO> result = userService.list();
+	public List<PlaceDTO> list() {
+		List<PlaceDTO> result = placeService.list();
 		return result;
 	}
 
 	@ApiOperation("Creates a new place")
 	@PostMapping
-	public UserDTO create(@Valid @RequestBody UserInputDTO user) {
-		UserDTO result = userService.create(user);
+	public PlaceDTO create(@Valid @RequestBody PlaceInputDTO user) {
+		PlaceDTO result = placeService.create(user);
 		return result;
 	}
 
-	@ApiOperation("Updates a user")
+	@ApiOperation("Find a place")
+	@GetMapping("/{id}")
+	public PlaceDTO findById(@PathVariable("id") Integer id) {
+		PlaceDTO result = placeService.find(id);
+		return result;
+	}
+
+	@ApiOperation("Updates a place")
 	@PutMapping("/{id}")
-	public UserDTO update(@PathVariable("id") Integer id, @Valid @RequestBody UserInputDTO user) {
-		UserDTO result = userService.update(id, user);
+	public PlaceDTO update(@PathVariable("id") Integer id, @Valid @RequestBody PlaceInputDTO user) {
+		PlaceDTO result = placeService.update(id, user);
 		return result;
 	}
 
-	@ApiOperation("Updates a user")
+	@ApiOperation("Delete a place")
 	@DeleteMapping("/{id}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public void remove(@PathVariable("id") Integer id) {
-		userService.remove(id);
+		placeService.remove(id);
 		return;
 	}
 }

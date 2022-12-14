@@ -21,8 +21,7 @@ public class PlaceInputDTO {
 	private String localizacao;
 
 	@NotNull
-	private int capacidade;
+	private Integer capacidade;
 
-	@NotNull
 	private List<String> recursos;
 }

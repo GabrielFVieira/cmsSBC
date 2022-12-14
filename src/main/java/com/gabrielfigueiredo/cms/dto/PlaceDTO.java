@@ -3,7 +3,8 @@ package com.gabrielfigueiredo.cms.dto;
 import java.util.List;
 
 import com.gabrielfigueiredo.cms.model.Place;
-import com.gabrielfigueiredo.cms.model.User;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -12,11 +13,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @ApiModel(value = "Place")
+@JsonInclude(Include.NON_EMPTY)
 public class PlaceDTO {
 	private Integer id;
 	private String nome;
 	private String localizacao;
-	private int capacidade;
+	private Integer capacidade;
 	private List<String> recursos;
 
 	public PlaceDTO(Place place) {
