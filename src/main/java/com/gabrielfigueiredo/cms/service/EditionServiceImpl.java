@@ -68,6 +68,10 @@ public class EditionServiceImpl implements EditionService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ServerException("Error while listing editions");
+		}
+	}
+		
+	@Override
 	public EditionDTO update(Event event, Integer id, EditionInputDTO input) {
 		try {
 			Optional<Edition> exists = event.getEdicoes()

@@ -14,4 +14,6 @@ public interface EditionService {
 	public EditionDTO update(Event event, Integer editionId, EditionInputDTO input);
 
 	public void addOrganizer(Edition edition, EditionOrganizerInputDTO organizer);
+
+	public List<EditionDTO> list();
 }
