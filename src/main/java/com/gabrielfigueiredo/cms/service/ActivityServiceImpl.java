@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.gabrielfigueiredo.cms.dto.ActivityDTO;
@@ -19,23 +18,20 @@ import com.gabrielfigueiredo.cms.model.Edition;
 import com.gabrielfigueiredo.cms.model.Place;
 import com.gabrielfigueiredo.cms.repository.ActivityRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class ActivityServiceImpl implements ActivityService {
 	private final ActivityRepository repository;
 	private final PlaceService placeService;
-	private final EditionService editionService;
-
-    public ActivityServiceImpl(ActivityRepository repo, PlaceService placeService, @Lazy EditionService editionService) {
-        this.repository = repo;
-		this.placeService = placeService;
-		this.editionService = editionService;
-    }
 
 	@Override
 	public ActivityDTO create(ActivityInputDTO input) {
 		try {
 			Place place = placeService.findEntity(input.getIdLocal());
-			Edition edition = editionService.findEntity(input.getIdEdicao());
+			Edition edition = new Edition();
+			edition.setId(input.getIdEdicao());
 
 			Activity entity = new Activity(input);
 			entity.setLocal(place);

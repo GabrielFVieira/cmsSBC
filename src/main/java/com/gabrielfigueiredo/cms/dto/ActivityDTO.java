@@ -25,6 +25,7 @@ public class ActivityDTO {
 	private PlaceDTO place;
 
 	public ActivityDTO(Activity activity) {
+		this.id = activity.getId();
 		this.nome = activity.getNome();
 		this.tipo = activity.getTipo();
 		this.descricao = activity.getDescricao();
