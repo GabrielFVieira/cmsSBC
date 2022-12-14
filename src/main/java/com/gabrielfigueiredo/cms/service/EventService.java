@@ -3,6 +3,7 @@ package com.gabrielfigueiredo.cms.service;
 import java.util.List;
 
 import com.gabrielfigueiredo.cms.dto.EventInputDTO;
+import com.gabrielfigueiredo.cms.model.Event;
 import com.gabrielfigueiredo.cms.dto.EditionDTO;
 import com.gabrielfigueiredo.cms.dto.EditionInputDTO;
 import com.gabrielfigueiredo.cms.dto.EditionOrganizerInputDTO;
@@ -12,6 +13,8 @@ public interface EventService {
 	public EventDTO create(EventInputDTO input);
 
 	public EventDTO find(Integer id);
+
+	public Event findByPath(String eventPath);
 
 	public List<EditionDTO> listEditions(Integer eventId);
 

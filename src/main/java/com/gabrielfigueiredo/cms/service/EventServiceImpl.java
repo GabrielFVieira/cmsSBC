@@ -89,6 +89,27 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
+	public Event findByPath(String eventPath) {
+		try {
+			Event sample = new Event();
+			sample.setCaminho(eventPath);
+
+			Optional<Event> exists = repository.findOne(Example.of(sample));
+
+			if (!exists.isPresent()) {
+				throw new NotFoundException("Event with path '"+eventPath+"' not found");
+			}
+
+			return exists.get();
+		}  catch (InvalidParamException | NotFoundException | DomainException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServerException("Error while fetching event");
+		}
+	}
+
+	@Override
 	public EditionDTO createEdition(Integer eventId, EditionInputDTO input) {
 		try {
 			Event entity = findById(eventId);
