@@ -3,9 +3,7 @@ package com.gabrielfigueiredo.cms.controller;
 import java.util.List;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gabrielfigueiredo.cms.dto.ActivityInputDTO;
 import com.gabrielfigueiredo.cms.dto.UserDTO;
 import com.gabrielfigueiredo.cms.dto.UserInputDTO;
 import com.gabrielfigueiredo.cms.service.UserService;
@@ -53,11 +52,25 @@ public class UserController {
 		return result;
 	}
 
-	@ApiOperation("Updates a user")
+	@ApiOperation("Removes a user")
 	@DeleteMapping("/{id}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public void remove(@PathVariable("id") Integer id) {
 		userService.remove(id);
 		return;
+	}
+
+	@ApiOperation("Adds an activity to an user's favorites")
+	@PutMapping("/{id}")
+	public UserDTO addActivityToFavorites(@PathVariable("id") Integer id, @Valid @RequestBody UserInputDTO userDTO, @Valid @RequestBody ActivityInputDTO activityDTO) {
+		UserDTO result = userService.addActivityToFavorites(id, userDTO, activityDTO);
+		return result;
+	}
+
+	@ApiOperation("Removess an activity from an user's favorites")
+	@PutMapping("/{id}")
+	public UserDTO removeActivityFromFavorites(@PathVariable("id") Integer id, @Valid @RequestBody UserInputDTO userDTO, @Valid @RequestBody ActivityInputDTO activityDTO) {
+		UserDTO result = userService.removeActivityFromFavorites(id, userDTO, activityDTO);
+		return result;
 	}
 }

@@ -1,7 +1,9 @@
 package com.gabrielfigueiredo.cms.dto;
 
 import com.gabrielfigueiredo.cms.model.User;
+import com.gabrielfigueiredo.cms.model.Activity;
 
+import java.util.List;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +17,7 @@ public class UserDTO {
 	private String email;
 	private String nome;
 	private String afiliacao;
+	private List<Activity> atividadesFavoritas;
 
 	public UserDTO(User user) {
 		this.id = user.getId();
@@ -22,5 +25,6 @@ public class UserDTO {
 		this.email = user.getEmail();
 		this.nome = user.getNome();
 		this.afiliacao = user.getAfiliacao();
+		this.atividadesFavoritas = user.getAtividadesFavoritas();
 	}
 }

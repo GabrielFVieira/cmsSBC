@@ -69,5 +69,11 @@ public class User {
 		return;
 	}
 
+	public List<Activity> getAtividadesFavoritas() {
+		return this.atividadesFavoritas;
+	}
 
+	public void setAtividadesFavoritas(List<Activity> activities) {
+		this.atividadesFavoritas = activities;
+	}
 }

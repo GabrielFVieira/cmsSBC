@@ -7,12 +7,14 @@ import java.util.Optional;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import com.gabrielfigueiredo.cms.dto.ActivityInputDTO;
 import com.gabrielfigueiredo.cms.dto.UserDTO;
 import com.gabrielfigueiredo.cms.dto.UserInputDTO;
 import com.gabrielfigueiredo.cms.exception.DomainException;
 import com.gabrielfigueiredo.cms.exception.InvalidParamException;
 import com.gabrielfigueiredo.cms.exception.NotFoundException;
 import com.gabrielfigueiredo.cms.exception.ServerException;
+import com.gabrielfigueiredo.cms.model.Activity;
 import com.gabrielfigueiredo.cms.model.User;
 import com.gabrielfigueiredo.cms.repository.UserRepository;
 
@@ -143,6 +145,66 @@ public class UserServiceImpl implements UserService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ServerException("Error while fetching user");
+		}
+	}
+
+	@Override
+	public UserDTO addActivityToFavorites(Integer id, UserInputDTO userDTO, ActivityInputDTO activityDTO) {
+		try {
+			User usrEntity = findById(id);
+			usrEntity.Merge(userDTO);
+			Activity actEntity = new Activity(activityDTO);
+			List<Activity> favoriteActivities = usrEntity.getAtividadesFavoritas();
+			
+			Long matchesCount = favoriteActivities.stream().filter(act -> act.equals(actEntity)).count();
+			 
+			if (!favoriteActivities.contains(actEntity) || matchesCount == 0L) {
+				favoriteActivities.add(actEntity);
+			}
+
+			usrEntity.setAtividadesFavoritas(favoriteActivities);
+			
+			usrEntity.Validate();
+			validateUserLogin(usrEntity);
+
+			User user = repository.save(usrEntity);
+			return new UserDTO(user);
+			
+		}  catch (NotFoundException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServerException("Error while adding favorite activities to user");
+		}
+	}
+
+	@Override
+	public UserDTO removeActivityFromFavorites(Integer id, UserInputDTO userDTO, ActivityInputDTO activityDTO) {
+		try {
+			User usrEntity = findById(id);
+			usrEntity.Merge(userDTO);
+			Activity actEntity = new Activity(activityDTO);
+			List<Activity> favoriteActivities = usrEntity.getAtividadesFavoritas();
+			
+			Long matchesCount = favoriteActivities.stream().filter(act -> act.equals(actEntity)).count();
+			 
+			if (favoriteActivities.contains(actEntity) || matchesCount > 0L) {
+				favoriteActivities.remove(actEntity);
+			}
+
+			usrEntity.setAtividadesFavoritas(favoriteActivities);
+			
+			usrEntity.Validate();
+			validateUserLogin(usrEntity);
+
+			User user = repository.save(usrEntity);
+			return new UserDTO(user);
+			
+		}  catch (NotFoundException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServerException("Error while adding favorite activities to user");
 		}
 	}
 }

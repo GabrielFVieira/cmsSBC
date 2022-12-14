@@ -1,7 +1,11 @@
 package com.gabrielfigueiredo.cms.dto;
 
+import java.util.List;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+
+import com.gabrielfigueiredo.cms.model.Activity;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -22,5 +26,5 @@ public class UserInputDTO {
 	@NotBlank
 	private String afiliacao;
 
-
+	private List<Activity> atividadesFavoritas;
 }
