@@ -32,7 +32,7 @@ public class SpringFoxConfiguration {
 	  private ApiInfo metaData() {
 		    return new ApiInfoBuilder()
 		        .title("CMS SBC")
-		        .description("\"CMS API made for the TCC00340 class\"")
+		        .description("CMS API made for the TCC00340 class")
 		        .version("1.0.0")
 		        .build();
 		  }
