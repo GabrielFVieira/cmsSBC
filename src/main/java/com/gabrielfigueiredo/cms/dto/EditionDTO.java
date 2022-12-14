@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.gabrielfigueiredo.cms.model.Edition;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
