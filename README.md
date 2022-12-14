@@ -2,6 +2,11 @@
 
 CMS API made for the TCC00340 class
 
+## Group:
+
+- Gabriel Figueiredo Vieira
+- Winne Pereira Ignacio Domingues
+
 ## To run the application:
 
 - Install docker, if its not already installed
