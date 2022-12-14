@@ -1,7 +1,7 @@
 package com.gabrielfigueiredo.cms.model;
 
 import java.sql.Time;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -12,6 +12,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.gabrielfigueiredo.cms.dto.ActivityInputDTO;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,6 +39,24 @@ public class Activity {
 
 	private Time horarioFinal;
 
+	public Activity(ActivityInputDTO input) {
+		this.nome = input.getNome();
+		this.tipo = input.getTipo();
+		this.descricao = input.getDescricao();
+		this.data = input.getData();
+		this.horarioInicial = input.getHorarioInicial();
+		this.horarioFinal = input.getHorarioFinal();
+	}
+
+	public void Merge(ActivityInputDTO input) {
+		this.nome = input.getNome();
+		this.tipo = input.getTipo();
+		this.descricao = input.getDescricao();
+		this.data = input.getData();
+		this.horarioInicial = input.getHorarioInicial();
+		this.horarioFinal = input.getHorarioFinal();
+	}
+
 	@OneToOne
 	@JoinColumn(name = "fk_local")
 	private Place local;
@@ -46,4 +66,8 @@ public class Activity {
 
 	@ManyToMany(mappedBy = "atividadesFavoritas")
 	private List<User> usuariosQueFavoritaram;
+
+	public void Validate() {
+		return;
+	}
 }
