@@ -68,14 +68,14 @@ public class UserController {
 	}
 
 	@ApiOperation("Adds an activity to an user's favorites")
-	@PutMapping("/{id}/addFavorite")
+	@PutMapping("/{id}/add-favorite")
 	public UserDTO addActivityToFavorites(@PathVariable("id") Integer id, @Valid @RequestBody FavoriteActivityInputDTO activity) {
 		UserDTO result = userService.addActivityToFavorites(id, activity);
 		return result;
 	}
 
 	@ApiOperation("Removess an activity from an user's favorites")
-	@PutMapping("/{id}/removeFavorite")
+	@PutMapping("/{id}/remove-favorite")
 	public UserDTO removeActivityFromFavorites(@PathVariable("id") Integer id,  @Valid @RequestBody FavoriteActivityInputDTO activity) {
 		UserDTO result = userService.removeActivityFromFavorites(id, activity);
 		return result;
