@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 public class Place {
 	@Id
 	@GeneratedValue
-	private Long id;
+	private Integer id;
 
 	@NonNull
 	private String nome;

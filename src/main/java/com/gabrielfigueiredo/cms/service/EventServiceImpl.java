@@ -2,13 +2,21 @@ package com.gabrielfigueiredo.cms.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.gabrielfigueiredo.cms.dto.EditionDTO;
 import com.gabrielfigueiredo.cms.dto.EditionInputDTO;
+import com.gabrielfigueiredo.cms.dto.EditionOrganizerInputDTO;
 import com.gabrielfigueiredo.cms.dto.EventDTO;
 import com.gabrielfigueiredo.cms.dto.EventInputDTO;
+import com.gabrielfigueiredo.cms.exception.DomainException;
+import com.gabrielfigueiredo.cms.exception.InvalidParamException;
+import com.gabrielfigueiredo.cms.exception.NotFoundException;
+import com.gabrielfigueiredo.cms.exception.ServerException;
+import com.gabrielfigueiredo.cms.model.Edition;
 import com.gabrielfigueiredo.cms.model.Event;
 import com.gabrielfigueiredo.cms.repository.EventRepository;
 
@@ -22,41 +30,110 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public EventDTO create(EventInputDTO input) {
-		Event event = new Event(input);
-		Event savedEvent = repository.save(event);
+		try {
+			Event entity = new Event(input);
+			entity.Validate();
+			validateEventPath(entity);
 
-		return convertToDTO(savedEvent);
+			Event savedEntity = repository.save(entity);
+			EventDTO dto = new EventDTO(savedEntity);
+
+			return dto;
+		}  catch (InvalidParamException | DomainException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServerException("Error while creating event");
+		}
 	}
 
 	@Override
 	public List<EventDTO> list() {
-		List<Event> events = repository.findAll();
+		try {
+			List<Event> events = repository.findAll();
 
-		List<EventDTO> dtos = new ArrayList<>();
-		for (Event event : events) {
-			dtos.add(convertToDTO(event));
+			List<EventDTO> dtos = new ArrayList<>();
+			for (Event event : events) {
+				dtos.add(new EventDTO(event));
+			}
+
+			return dtos;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServerException("Error while listing events");
 		}
-
-		return dtos;
-	}
-
-	private EventDTO convertToDTO(Event event) {
-		EventDTO dto = new EventDTO();
-		dto.setId(event.getId());
-		dto.setNome(event.getNome());
-		dto.setDescricao(event.getDescricao());
-		dto.setSigla(event.getSigla());
-		dto.setCaminho(event.getCaminho());
-
-		return dto;
 	}
 
 	@Override
-	public EditionDTO createEdition(String eventPath, EditionInputDTO input) {
-		Event event = repository.findByPath(eventPath);
-		EditionDTO edition = editionService.create(event, input);
+	public EditionDTO createEdition(Integer eventId, EditionInputDTO input) {
+		try {
+			Event entity = findById(eventId);
 
-		return edition;
+			Optional<Edition> found = entity.getEdicoes()
+										.stream()
+										.filter(e -> e.getNumero() == input.getNumero())
+										.findFirst();
+
+			if (found.isPresent()) {
+				throw new DomainException("An edition with number '"+input.getNumero()+"' already exists in this event");
+			}
+
+			EditionDTO edition = editionService.create(entity, input);
+
+			return edition;
+		}  catch (InvalidParamException | NotFoundException | DomainException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServerException("Error while creating edition");
+		}
+	}
+
+	@Override
+	public void addOrganizer(Integer eventId, Integer editionId, EditionOrganizerInputDTO input) {
+		try {
+			Event entity = findById(eventId);
+
+			Optional<Edition> found = entity.getEdicoes()
+										.stream()
+										.filter(e -> e.getId() == editionId)
+										.findFirst();
+
+			if (!found.isPresent()) {
+				throw new NotFoundException("Edition '"+editionId+"' not found on event '"+eventId+"'");
+			}
+
+			editionService.addOrganizer(found.get(), input);
+			return;
+		}  catch (InvalidParamException | NotFoundException | DomainException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServerException("Error while adding organizer on edition");
+		}
+	}
+
+	private Event findById(Integer id) {
+		Optional<Event> exists = repository.findById(id);
+
+		if (!exists.isPresent()) {
+			throw new NotFoundException("Event '"+id+"' not found");
+		}
+
+		return exists.get();
+	}
+
+	private void validateEventPath(Event event) {
+		Event sample = new Event();
+		sample.setCaminho(event.getCaminho());
+
+		Optional<Event> foundEvent = repository.findOne(Example.of(sample));
+
+		if (foundEvent.isPresent() && foundEvent.get().getId() != event.getId()) {
+			throw new DomainException("Path '"+event.getCaminho()+"' already in use");
+		}
+
+		return;
 	}
 }
 

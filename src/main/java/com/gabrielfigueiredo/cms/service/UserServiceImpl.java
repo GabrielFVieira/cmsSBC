@@ -131,4 +131,18 @@ public class UserServiceImpl implements UserService {
 
 		return exists.get();
 	}
+
+	@Override
+	public User findEntity(Integer id) {
+		try {
+			User entity = findById(id);
+
+			return entity;
+		}  catch (NotFoundException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServerException("Error while fetching user");
+		}
+	}
 }

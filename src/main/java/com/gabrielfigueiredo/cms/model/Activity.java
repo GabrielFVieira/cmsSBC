@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 public class Activity {
 	@Id
 	@GeneratedValue
-	private Long id;
+	private Integer id;
 
 	private String nome;
 

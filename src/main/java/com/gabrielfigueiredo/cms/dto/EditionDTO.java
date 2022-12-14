@@ -12,7 +12,7 @@ import lombok.Data;
 @ApiModel(value = "Edition")
 public class EditionDTO {
     // @ApiModelProperty(value = "TO BE DEFINED", required = false)
-	private Long id;
+	private Integer id;
 	private Integer numero;
 	private Integer ano;
 	private String cidade;
@@ -20,6 +20,7 @@ public class EditionDTO {
 	private Date dataFinal;
 
     public EditionDTO(Edition input) {
+		this.id = input.getId();
 		this.ano = input.getAno();
 		this.numero = input.getNumero();
 		this.cidade = input.getCidade();

@@ -48,7 +48,7 @@ public class UserController {
 
 	@ApiOperation("Updates a user")
 	@PutMapping("/{id}")
-	public UserDTO update(@PathVariable Integer id, @Valid @RequestBody UserInputDTO user) {
+	public UserDTO update(@PathVariable("id") Integer id, @Valid @RequestBody UserInputDTO user) {
 		UserDTO result = userService.update(id, user);
 		return result;
 	}
@@ -56,7 +56,7 @@ public class UserController {
 	@ApiOperation("Updates a user")
 	@DeleteMapping("/{id}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	public void remove(@PathVariable Integer id) {
+	public void remove(@PathVariable("id") Integer id) {
 		userService.remove(id);
 		return;
 	}

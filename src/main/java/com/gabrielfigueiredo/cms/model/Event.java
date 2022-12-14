@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 public class Event {
 	@Id
 	@GeneratedValue
-	private Long id;
+	private Integer id;
 
 	@NonNull
 	private String nome;
@@ -38,12 +38,16 @@ public class Event {
 	private String caminho;
 
 	@OneToMany(mappedBy = "evento")
-	private List<Edition> edicao;
+	private List<Edition> edicoes;
 
 	public Event(EventInputDTO input) {
 		this.nome = input.getNome();
 		this.sigla = input.getSigla();
 		this.descricao = input.getDescricao();
 		this.caminho = input.getCaminho();
+	}
+
+	public void Validate() {
+		return;
 	}
 }

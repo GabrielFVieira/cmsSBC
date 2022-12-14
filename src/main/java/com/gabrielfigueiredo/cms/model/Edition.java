@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 public class Edition {
 	@Id
 	@GeneratedValue
-	private Long id;
+	private Integer id;
 
 	@NonNull
 	private Integer numero;
@@ -61,5 +61,9 @@ public class Edition {
 		this.cidade = input.getCidade();
 		this.dataInicial = input.getDataInicial();
 		this.dataFinal = input.getDataFinal();
+	}
+
+	public void Validate() {
+		return;
 	}
 }
