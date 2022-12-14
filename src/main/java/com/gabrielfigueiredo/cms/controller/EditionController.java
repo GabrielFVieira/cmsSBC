@@ -44,7 +44,7 @@ public class EditionController {
 
 	@ApiOperation("Creates a new activity on the event edition")
 	@PostMapping("/{id}/activity")
-	public EditionDTO createActivity(@PathVariable("eventid") Integer eventId, @PathVariable("id") Integer editionId,
+	public EditionDTO createActivity(@PathVariable("eventId") Integer eventId, @PathVariable("id") Integer editionId,
 									@Valid @RequestBody EditionInputDTO edition) {
 
 
