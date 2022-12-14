@@ -42,4 +42,11 @@ public class EventController {
 		List<EventDTO> result = eventService.list();
 		return result;
 	}
+
+	@ApiOperation("List all events")
+	@GetMapping("/{id}")
+	public EventDTO find(@PathVariable("id") Integer id) {
+		EventDTO result = eventService.find(id);
+		return result;
+	}
 }

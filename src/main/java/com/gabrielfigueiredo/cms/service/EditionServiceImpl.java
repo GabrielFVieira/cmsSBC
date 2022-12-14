@@ -2,6 +2,7 @@ package com.gabrielfigueiredo.cms.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,15 @@ public class EditionServiceImpl implements EditionService {
 	@Override
 	public EditionDTO create(Event event, EditionInputDTO input) {
 		try {
+			Optional<Edition> found = event.getEdicoes()
+										.stream()
+										.filter(e -> e.getNumero() == input.getNumero())
+										.findFirst();
+
+			if (found.isPresent()) {
+				throw new DomainException("An edition with number '"+input.getNumero()+"' already exists in this event");
+			}
+
 			Edition edition = new Edition(input);
 			edition.setEvento(event);
 			edition.Validate();
@@ -45,14 +55,43 @@ public class EditionServiceImpl implements EditionService {
 			e.printStackTrace();
 			throw new ServerException("Error while creating edition");
 		}
-
-
 	}
 
 	@Override
-	public List<EditionDTO> list() {
-		// TODO Auto-generated method stub
-		return null;
+	public EditionDTO update(Event event, Integer id, EditionInputDTO input) {
+		try {
+			Optional<Edition> exists = event.getEdicoes()
+										.stream()
+										.filter(e -> e.getId() == id)
+										.findFirst();
+
+			if (!exists.isPresent()) {
+				throw new NotFoundException("Edition '"+id+"' not found");
+			}
+
+			Optional<Edition> found = event.getEdicoes()
+										.stream()
+										.filter(e -> e.getNumero() == input.getNumero() && e.getId() != id)
+										.findFirst();
+
+			if (found.isPresent()) {
+				throw new DomainException("An edition with number '"+input.getNumero()+"' already exists in this event");
+			}
+
+			Edition edition = exists.get();
+			edition.Merge(input);
+			edition.Validate();
+
+			Edition savedEdition = repository.save(edition);
+			EditionDTO dto = new EditionDTO(savedEdition);
+
+			return dto;
+		}  catch (InvalidParamException | NotFoundException | DomainException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServerException("Error while updating edition");
+		}
 	}
 
 	@Override

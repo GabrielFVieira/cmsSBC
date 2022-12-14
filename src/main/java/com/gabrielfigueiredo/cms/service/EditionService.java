@@ -11,7 +11,7 @@ import com.gabrielfigueiredo.cms.dto.EditionDTO;
 public interface EditionService {
 	public EditionDTO create(Event event, EditionInputDTO input);
 
-	public void addOrganizer(Edition edition, EditionOrganizerInputDTO organizer);
+	public EditionDTO update(Event event, Integer editionId, EditionInputDTO input);
 
-	public List<EditionDTO> list();
+	public void addOrganizer(Edition edition, EditionOrganizerInputDTO organizer);
 }

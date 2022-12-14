@@ -2,6 +2,8 @@ package com.gabrielfigueiredo.cms.dto;
 
 import com.gabrielfigueiredo.cms.model.Event;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import io.swagger.annotations.ApiModel;
@@ -18,6 +20,8 @@ public class EventDTO {
     private String descricao;
     private String sigla;
     private String caminho;
+
+    private List<EditionDTO> editions;
 
     public EventDTO(Event input) {
         this.id = input.getId();

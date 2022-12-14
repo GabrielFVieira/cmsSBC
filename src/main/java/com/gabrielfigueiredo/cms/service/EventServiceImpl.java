@@ -65,19 +65,33 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
+	public EventDTO find(Integer id) {
+		try {
+			Event entity = findById(id);
+			EventDTO dto = new EventDTO(entity);
+
+			if (entity.getEdicoes() != null) {
+				List<EditionDTO> editions = new ArrayList<>();
+				for (Edition edition : entity.getEdicoes()) {
+					editions.add(new EditionDTO(edition));
+				}
+
+				dto.setEditions(editions);
+			}
+
+			return dto;
+		}  catch (InvalidParamException | NotFoundException | DomainException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServerException("Error while fetching event");
+		}
+	}
+
+	@Override
 	public EditionDTO createEdition(Integer eventId, EditionInputDTO input) {
 		try {
 			Event entity = findById(eventId);
-
-			Optional<Edition> found = entity.getEdicoes()
-										.stream()
-										.filter(e -> e.getNumero() == input.getNumero())
-										.findFirst();
-
-			if (found.isPresent()) {
-				throw new DomainException("An edition with number '"+input.getNumero()+"' already exists in this event");
-			}
-
 			EditionDTO edition = editionService.create(entity, input);
 
 			return edition;
@@ -86,6 +100,40 @@ public class EventServiceImpl implements EventService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ServerException("Error while creating edition");
+		}
+	}
+
+	@Override
+	public List<EditionDTO> listEditions(Integer eventId) {
+		try {
+			Event entity = findById(eventId);
+
+			List<EditionDTO> dtos = new ArrayList<>();
+			for (Edition edition : entity.getEdicoes()) {
+				dtos.add(new EditionDTO(edition));
+			}
+
+			return dtos;
+		}  catch (InvalidParamException | NotFoundException | DomainException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServerException("Error while listing editions");
+		}
+	}
+
+	@Override
+	public EditionDTO updateEdition(Integer eventId, Integer editionId, EditionInputDTO input) {
+		try {
+			Event entity = findById(eventId);
+			EditionDTO edition = editionService.update(entity, editionId, input);
+
+			return edition;
+		}  catch (InvalidParamException | NotFoundException | DomainException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServerException("Error while updating edition");
 		}
 	}
 

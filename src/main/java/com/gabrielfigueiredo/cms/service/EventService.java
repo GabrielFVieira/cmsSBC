@@ -11,7 +11,13 @@ import com.gabrielfigueiredo.cms.dto.EventDTO;
 public interface EventService {
 	public EventDTO create(EventInputDTO input);
 
+	public EventDTO find(Integer id);
+
+	public List<EditionDTO> listEditions(Integer eventId);
+
 	public EditionDTO createEdition(Integer eventId, EditionInputDTO input);
+
+	public EditionDTO updateEdition(Integer eventId, Integer editionId, EditionInputDTO input);
 
 	public void addOrganizer(Integer eventId, Integer editionId, EditionOrganizerInputDTO input);
 
