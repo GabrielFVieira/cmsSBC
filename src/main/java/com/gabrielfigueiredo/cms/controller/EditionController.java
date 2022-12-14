@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/event/{eventId}/edition")
 @RequiredArgsConstructor
-@Api(tags = {"Event"})
+@Api(tags = {"Edition"})
 public class EditionController {
 	private final EventService eventService;
 
