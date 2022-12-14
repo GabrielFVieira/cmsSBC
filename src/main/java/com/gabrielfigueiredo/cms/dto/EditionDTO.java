@@ -2,6 +2,8 @@ package com.gabrielfigueiredo.cms.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.gabrielfigueiredo.cms.model.Edition;
 
 import io.swagger.annotations.ApiModel;
@@ -10,6 +12,7 @@ import lombok.Data;
 
 @Data
 @ApiModel(value = "Edition")
+@JsonInclude(Include.NON_EMPTY)
 public class EditionDTO {
     // @ApiModelProperty(value = "TO BE DEFINED", required = false)
 	private Integer id;

@@ -4,14 +4,14 @@ import java.util.List;
 
 import com.gabrielfigueiredo.cms.dto.PlaceDTO;
 import com.gabrielfigueiredo.cms.dto.PlaceInputDTO;
-import com.gabrielfigueiredo.cms.model.User;
+import com.gabrielfigueiredo.cms.model.Place;
 
 public interface PlaceService {
 	public PlaceDTO create(PlaceInputDTO input);
 
 	public PlaceDTO find(Integer id);
 
-	public User findEntity(Integer id);
+	public Place findEntity(Integer id);
 
 	public List<PlaceDTO> list();
 

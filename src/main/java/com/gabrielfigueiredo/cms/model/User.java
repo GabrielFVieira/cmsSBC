@@ -52,10 +52,7 @@ public class User {
 	private List<Activity> atividadesFavoritas;
 
 	public User(UserInputDTO input) {
-		this.nome = input.getNome();
-		this.login = input.getLogin();
-		this.email = input.getEmail();
-		this.afiliacao = input.getAfiliacao();
+		Merge(input);
 	}
 
 	public void Merge(UserInputDTO input) {

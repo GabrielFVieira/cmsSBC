@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.lang.NonNull;
 
@@ -21,7 +22,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name="edicao")
+@Table(name="edicao", uniqueConstraints = @UniqueConstraint(columnNames = {"numero", "fk_evento"}))
 @NoArgsConstructor
 public class Edition {
 	@Id
@@ -56,6 +57,10 @@ public class Edition {
 	private List<Activity> atividades;
 
 	public Edition(EditionInputDTO input) {
+		Merge(input);
+	}
+
+	public void Merge(EditionInputDTO input) {
 		this.ano = input.getAno();
 		this.numero = input.getNumero();
 		this.cidade = input.getCidade();

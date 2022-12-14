@@ -3,7 +3,6 @@ package com.gabrielfigueiredo.cms.controller;
 import java.util.List;
 
 import javax.validation.Valid;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gabrielfigueiredo.cms.dto.PlaceDTO;
 import com.gabrielfigueiredo.cms.dto.PlaceInputDTO;
 import com.gabrielfigueiredo.cms.service.PlaceService;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +39,13 @@ public class PlaceController {
 	@PostMapping
 	public PlaceDTO create(@Valid @RequestBody PlaceInputDTO place) {
 		PlaceDTO result = placeService.create(place);
+		return result;
+	}
+
+	@ApiOperation("Find a place")
+	@GetMapping("/{id}")
+	public PlaceDTO findById(@PathVariable("id") Integer id) {
+		PlaceDTO result = placeService.find(id);
 		return result;
 	}
 
