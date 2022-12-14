@@ -26,20 +26,20 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/place")
 @RequiredArgsConstructor
-@Api(tags = {"User"})
-public class UserController {
+@Api(tags = {"Place"})
+public class PlaceController {
 	private final UserService userService;
 
-	@ApiOperation("List all users")
+	@ApiOperation("List all places")
 	@GetMapping
 	public List<UserDTO> list() {
 		List<UserDTO> result = userService.list();
 		return result;
 	}
 
-	@ApiOperation("Creates a new user")
+	@ApiOperation("Creates a new place")
 	@PostMapping
 	public UserDTO create(@Valid @RequestBody UserInputDTO user) {
 		UserDTO result = userService.create(user);

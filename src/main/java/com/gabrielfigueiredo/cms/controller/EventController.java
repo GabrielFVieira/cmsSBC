@@ -20,17 +20,14 @@ import com.gabrielfigueiredo.cms.dto.EventInputDTO;
 import com.gabrielfigueiredo.cms.service.EventService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("event")
+@RequestMapping("/api/v1/event")
 @RequiredArgsConstructor
 @Api(tags = {"Event"})
 public class EventController {
 	private final EventService eventService;
-
-	private static final String EVENT_PATH = "The event path given during creation";
 
 	@ApiOperation("Creates a new event")
 	@PostMapping()
@@ -44,32 +41,5 @@ public class EventController {
 	public List<EventDTO> list() {
 		List<EventDTO> result = eventService.list();
 		return result;
-	}
-
-	@ApiOperation("Creates a new edition of the given event")
-	@PostMapping("/{id}/edition")
-	public EditionDTO createEdition(@PathVariable("id") Integer id,
-									@Valid @RequestBody EditionInputDTO edition) {
-
-		EditionDTO result = eventService.createEdition(id, edition);
-		return result;
-	}
-
-	@ApiOperation("Creates or update the event's edition organizer")
-	@PutMapping("/{eventid}/edition/{editionId}/organizer")
-	public void addOrganizer(@PathVariable("eventid") Integer eventId, @PathVariable("editionId") Integer editionId,
-							@Valid @RequestBody EditionOrganizerInputDTO organizer) {
-
-		eventService.addOrganizer(eventId, editionId, organizer);
-		return;
-	}
-
-	@ApiOperation("Creates a new activity on the event edition")
-	@PostMapping("/{eventid}/edition/{editionId}/activity")
-	public EditionDTO createActivity(@PathVariable("eventid") Integer eventId, @PathVariable("editionId") Integer editionId,
-									@Valid @RequestBody EditionInputDTO edition) {
-
-
-		return null;
 	}
 }
